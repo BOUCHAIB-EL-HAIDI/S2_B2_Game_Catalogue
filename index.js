@@ -1,6 +1,5 @@
 
-
-// creating the navbar//
+//decleration 
 
 const menuToggle = document.getElementById("menu-toggle");
 const mobileMenu = document.getElementById("mobile-menu");
@@ -8,12 +7,34 @@ const mobileMenu = document.getElementById("mobile-menu");
 const searchInput = document.querySelector('input[type="text"]');
 const searchIcon = document.querySelector('.fa-magnifying-glass');
 
+let image = document.querySelector('#card-first-part img');
+
+const gameofthemonthName = document.querySelector("#card-second-part h1");
+
+const gameofthemonthRating = document.querySelector("#card-second-part h2");
+
+const releasedate = document.querySelector("#release_container span:nth-of-type(1)");
+
+const genre = document.querySelector("#release_container span:nth-of-type(2)");
+
+const firstIcon = document.querySelector('#platforms i:nth-of-type(1)');
+const secondIcon = document.querySelector('#platforms i:nth-of-type(2)');
+const thirdIcon =document.querySelector('#platforms i:nth-of-type(3)');
+
+const gameFilter = document.getElementById("game-filter");
+const genreFilter = document.getElementById("genre-filter");
+
+// creating the navbar//
+
+
+
 menuToggle.addEventListener("click", () => {
   mobileMenu.classList.toggle("hidden");
 });
 
 searchIcon.addEventListener("click", () => {
   searchInput.classList.toggle("hidden");
+  
     // Focus the input if it's now visible
   if (!searchInput.classList.contains("hidden")) {
     searchInput.focus();
@@ -38,6 +59,7 @@ const data = await response.json();
 
 
 
+
 // finding the game of the month based on rating 
 
    const gameOfTheMonth = games.reduce((best, game) => {
@@ -45,21 +67,14 @@ const data = await response.json();
     }, games[0]);
 
 //appending game of the month image to html
-let image = document.querySelector('#card-first-part img');
 let background_image = gameOfTheMonth.background_image ;
 
 image.src = background_image ;
 image.alt = gameOfTheMonth.name ;
 
-
-
-
 const platforms = gameOfTheMonth.platforms.map(p => p.platform.name);
 
 //adding the platforms icons 
-const firstIcon = document.querySelector('#platforms i:nth-of-type(1)');
-const secondIcon = document.querySelector('#platforms i:nth-of-type(2)');
-const thirdIcon =document.querySelector('#platforms i:nth-of-type(3)');
 
 const platform  = document.getElementById("platforms")
 platforms.forEach(p => {
@@ -83,25 +98,14 @@ secondIcon.classList.add("fa-brands" ,"fa-playstation");
 
 // adding the name   
 
-const gameofthemonthName = document.querySelector("#card-second-part h1");
-
 gameofthemonthName.innerText = gameOfTheMonth.name ;
-
-
-const gameofthemonthRating = document.querySelector("#card-second-part h2");
 
 gameofthemonthRating.innerText = "⭐\u00A0" + gameOfTheMonth.rating ;
 
 
-
 //adding release date and genres 
 
-const releasedate = document.querySelector("#release_container span:nth-of-type(1)");
-
 releasedate.innerText = gameOfTheMonth.released ;
-
-
-const genre = document.querySelector("#release_container span:nth-of-type(2)");
 
 const gameOfTheMonthGenre =  gameOfTheMonth.genres.map(g => g.name);
 
@@ -122,7 +126,7 @@ fetchdataGM();
 
 
 // adding the all games 
-  
+let sortOption = ""; 
 const cards = document.querySelector('.cards');
 let next =1;
 const nextbtn = document.querySelector('#next')
@@ -150,56 +154,27 @@ previousbtn.addEventListener('click', ()=> {
 
 
 
+let sort ;
 
-
-  
 const fetchDataAll = async () => {
   try {
     
    
     const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?page=${next}`);
     if (!response.ok) throw new Error('Network response was not ok');
-      games = "";
+     games = "";
      data = await response.json();
      games = data.results;
 
-  //   console.log(games)
-    // games.sort((a,b) => a.name.localeCompare(b.name))
-   
-  // games.forEach(g => {
-
-  // console.log(g.name)
-
-  // })
+    // Apply sorting if needed
+    if(sortOption === "name-asc") games.sort((a,b) => a.name.localeCompare(b.name));
+    if(sortOption === "name-desc") games.sort((a,b) => b.name.localeCompare(a.name));
 
 
 
-
-    
-
-   
-// let arr =[];
-
-//    games.forEach((g,index)  => {
-
-//   const recomanded = g.ratings.find(g => g.title === "recommended");
-
-//   console.log(recomanded.count)
-
-//    console.log(g.name)
-  
-//    arr.push({name : g.name , count : recomanded.count} );
-
-//    })
-
-//    console.log(arr)
-  
-
-    
-
-
+    // Clear and display cards
+    cards.innerHTML = "";
     games.forEach(game => {
-
 
       let allplatform = game.platforms.map(p => p.platform.name);
 
@@ -207,13 +182,11 @@ const fetchDataAll = async () => {
 
       let genrejoin = genre.join(", ");
 
-     
-    
+  
       
       let xbox ="";
       let playstation = "";
       let pc = "";
-
 
 
       allplatform.forEach(p=> {
@@ -290,14 +263,30 @@ const fetchDataAll = async () => {
   }
 };
 
-
+// the first fetching 
 if (next === 1){
    fetchDataAll();
 }
 
 
+//adding the filters and reset filters button just the displaying 
 
+gameFilter.addEventListener("change", () => {
+  if(gameFilter.value === "name-asc" || gameFilter.value === "name-desc") {
+    sortOption = gameFilter.value; // set the flag
+  } else if(gameFilter.value === "reset") {
+    sortOption = "";
+    gameFilter.value = "";
+    genreFilter.value = "";
+    genreFilter.classList.add("hidden");
+  } else if(gameFilter.value === "genre") {
+    genreFilter.classList.remove("hidden");
+  } else {
+    genreFilter.classList.add("hidden");
+  }
 
+  fetchDataAll();
+});
 
 
 
