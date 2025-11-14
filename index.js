@@ -78,6 +78,8 @@ secondIcon.classList.add("fa-brands" ,"fa-playstation");
 
 
 
+});
+
 // adding the name   
 
 const gameofthemonthName = document.querySelector("#card-second-part h1");
@@ -107,8 +109,6 @@ const genreText = gameOfTheMonthGenre.join(", ");
 
 genre.innerText = genreText ;
 
-});
-
 }
  catch (error) {
        
@@ -121,18 +121,51 @@ fetchdataGM();
 
 
 // adding the all games 
-
-
-
+  
 const fetchDataAll = async () => {
   try {
-    const response = await fetch('https://debuggers-games-api.duckdns.org/api/games');
+
+   
+    const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?page=1`);
     if (!response.ok) throw new Error('Network response was not ok');
 
     const data = await response.json();
     const games = data.results;
 
+  //   console.log(games)
+    games.sort((a,b) => a.name.localeCompare(b.name))
+   
+  // games.forEach(g => {
+
+  // console.log(g.name)
+
+  // })
+
+
+
+
+    
+
+   
+// let arr =[];
+
+//    games.forEach((g,index)  => {
+
+//   const recomanded = g.ratings.find(g => g.title === "recommended");
+
+//   console.log(recomanded.count)
+
+//    console.log(g.name)
+  
+//    arr.push({name : g.name , count : recomanded.count} );
+
+//    })
+
+//    console.log(arr)
+  
+
     const cards = document.querySelector('.cards');
+
 
     games.forEach(game => {
 
@@ -174,7 +207,7 @@ const fetchDataAll = async () => {
       
       `
     
-    <div id="card"  class="h-[550px] w-[425px] bg-secondary flex flex-col rounded-md lg:w-[500px]">
+    <div   class="card h-[550px] w-[425px] bg-secondary flex flex-col rounded-md ">
      <div  id="card-first-part" class="h-1/2 w-full rounded-md">
 
 
@@ -186,24 +219,28 @@ const fetchDataAll = async () => {
 
      <div id="card-second-part" class="h-1/2 w-full p-2 pt-4 flex flex-col gap-6">
 
-      <div class="" id="platforms">
-      
+      <div class="flex justify-between" id="platforms">
+        
+       <div>
         <i class="${pc} mr-2 text-2xl"></i>
         <i class="${playstation} mr-2 text-2xl"></i>
         <i class="${xbox} mr-2 text-2xl"></i>
-        
+        </div>
+         <button class="bg-third w-fit text-center left-40 top-32 rounded-lg font-semibold">Quick look</button>
       </div>
        <h1 class="text-4xl">${game.name}</h1>
        <h2 class="text-2xl">${"⭐\u00A0" + game.rating} </h2>
      
       <div id="release_container">
-       Realese Date : <span class="mr-6 text-gray-400">${game.released}</span>
+       Release Date : <span class="mr-6 text-gray-400">${game.released}</span>
 
        Genre : <span class=" text-gray-400">${genrejoin}</span>
 
       </div>
 
      </div>
+
+    
 
      </div>
       
@@ -222,7 +259,7 @@ const fetchDataAll = async () => {
   }
 };
 
-fetchDataAll();
+ fetchDataAll();
 
 
 
