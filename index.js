@@ -25,11 +25,12 @@ searchIcon.addEventListener("click", () => {
 
 // fetching data for game of the month //
 
-let games = [];
 
+let games = [];
 const fetchdataGM = async()=> {
 
 try {
+  
 const response  =  await fetch('https://debuggers-games-api.duckdns.org/api/games');
 
 const data = await response.json();
@@ -122,18 +123,48 @@ fetchdataGM();
 
 // adding the all games 
   
+const cards = document.querySelector('.cards');
+let next =1;
+const nextbtn = document.querySelector('#next')
+
+nextbtn.addEventListener('click', ()=> {
+next++;
+cards.innerHTML = "";
+ fetchDataAll();
+console.log(next);
+})
+
+const previousbtn = document.querySelector('#previous');
+
+previousbtn.addEventListener('click', ()=> {
+
+  
+ if(next>1) {
+ next--;
+ cards.innerHTML = "";
+ fetchDataAll();
+ } 
+ console.log(next);
+})
+
+
+
+
+
+
+  
 const fetchDataAll = async () => {
   try {
-
+    
    
-    const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?page=1`);
+    const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?page=${next}`);
     if (!response.ok) throw new Error('Network response was not ok');
-
-    const data = await response.json();
-    const games = data.results;
+      games = "";
+     data = await response.json();
+     games = data.results;
 
   //   console.log(games)
-    games.sort((a,b) => a.name.localeCompare(b.name))
+    // games.sort((a,b) => a.name.localeCompare(b.name))
    
   // games.forEach(g => {
 
@@ -164,7 +195,7 @@ const fetchDataAll = async () => {
 //    console.log(arr)
   
 
-    const cards = document.querySelector('.cards');
+    
 
 
     games.forEach(game => {
@@ -259,8 +290,10 @@ const fetchDataAll = async () => {
   }
 };
 
- fetchDataAll();
 
+if (next === 1){
+   fetchDataAll();
+}
 
 
 
