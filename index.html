@@ -24,6 +24,10 @@
           },
           fontFamily: {
             sans: ['Montserrat', 'sans-serif']
+          },
+          screens : {
+
+            'bp1316' : '1316px'
           }
         }
       }
@@ -51,14 +55,14 @@
 
 <input type="text" placeholder="search by name" class="hidden rounded-full h-8 relative md:block  lg:w-48 text-black ">
 <i class="fa-solid fa-magnifying-glass  text-gray-400 mr-8 cursor-pointer text-2xl fixed right-9 lg:hidden" ></i>
-<i id="menu-toggle"    class="fa-solid fa-bars text-gray-400 cursor-pointer text-2xl ml-5 lg:hidden" ></i>
+<i id="menu-toggle"    class="fa-solid fa-bars text-gray-400 cursor-pointer text-2xl ml-5  lg:hidden" ></i>
 </div>
 
 <div  id="desktop-menu" class="hidden lg:flex space-x-8">
 
 <a   href="/" class="font-extrabold hover:text-third">Home</a> 
 <a   href="/" class="font-extrabold hover:text-third">Game of the Month</a>
-<a   href="/"class="font-extrabold hover:text-third">All Games</a>
+<a   href="#all-games"class="font-extrabold hover:text-third">All Games</a>
 <a   href="/"class="font-extrabold hover:text-third">Recommended</a>
 <a   href="/"class="font-extrabold hover:text-third">Favorites</a>
 
@@ -69,7 +73,7 @@
 <div id="mobile-menu" class=" hidden flex flex-col justify-center items-center absolute z-50 w-full lg:hidden">
   <a href="/" class="font-extrabold hover:text-third mb-2 w-full h-16 flex justify-center items-center bg-secondary">Home</a>
   <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Game of the Month</a>
-  <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">All Games</a>
+  <a href="#all-games" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">All Games</a>
   <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Recommended</a>
   <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Favorites</a>
 </div>
@@ -94,7 +98,7 @@
 
 </div>
 
-<div id="hero-second-part " class="bg-black h-[280px] flex justify-center items-center flex-col gap-10 lg:w-1/2 lg:h-[538px]">
+<div id="hero-second-part" class="bg-black h-[280px] flex justify-center items-center flex-col gap-10 lg:w-1/2 lg:h-[538px]">
 
 <h1 class="font-sans text-third font-extrabold text-center">GAMEVERSE</h1>
 
@@ -120,7 +124,7 @@
   <!--game of the month section setup-->
 
 
- <section  id="all-games" class="flex justify-center items-center flex-col p-10 gap-10">
+ <section  id="game-of-the-month" class="flex justify-center items-center flex-col p-10 gap-20">
 
   <h1  class="text-center font-extrabold">Game Of the Month </h1>
 
@@ -162,25 +166,83 @@
 
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
  </section>
 
 
+    <section  id="all-games">
+
+
+     <h1  class="text-center font-extrabold mb-10">ALL Games</h1>
+
+  <p class="text-center text-gray-400">Explore our complete catalog featuring 
+    <br>hundreds of games across every genre and 
+    <br>platform. Find your next favorite adventure 
+    <br>right here.</p>
 
 
 
+     <!-- adding the sort selector  -->
+
+    <div   class="flex justify-center">
+
+     <select   id="game-filter" class="bg-primary text-white rounded-xl mt-6 w-56 border-1 border-third">
+
+    <option  value=""  disabled selected >sort</option>
+
+    <option value="name-asc">By Name A-Z</option>
+    <option value="name-desc">By Name Z-A</option>
+    <option value="Genre">By Genre</option>
+     <option value="platforms">By Platform</option>
+
+
+     </select>
+
+    </div>
+
+
+     <div class="cards grid sm:grid-cols-1 items-center md:grid-cols-2 lg:grid-cols-3 justify-items-center p-10 gap-10">
+
+      
+
+     </div>
+
+
+     <div class="flex justify-center gap-10 items-center" id="pagination">
+     
+     <i class="fa-solid fa-arrow-left"></i>
+    <button id="previous" class="w-28 bg-third m-10 text-center rounded-lg font-bold">previous</button>
+    <button id="next" class=" bg-third m-10 w-28 text-center rounded-lg font-bold">next</button>
+     <i class="fa-solid fa-arrow-right"></i>
+
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </section>
+
+    
+ 
+    
 
 
 
