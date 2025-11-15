@@ -24,6 +24,11 @@ const thirdIcon =document.querySelector('#platforms i:nth-of-type(3)');
 const gameFilter = document.getElementById("game-filter");
 const genreFilter = document.getElementById("genre-filter");
 
+
+const searchResultsSection = document.getElementById("search-results-section");
+const searchResultsContainer = document.getElementById("search-results");
+const noResultsMessage = document.getElementById("no-results-message");
+
 // creating the navbar//
 
 
@@ -305,6 +310,71 @@ genreFilter.addEventListener("change", () => {
   sortOption = genreFilter.value; // "action", "rpg", or "adventure"
   fetchDataAll();
 });
+
+
+
+
+
+
+const fetchSearchResults = async (query) => {
+    try {
+        const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?search=${query}`);
+        const data = await response.json();
+        const results = data.results;
+
+        // Clear main cards
+        cards.innerHTML = "";
+
+        // Display search results
+        results.forEach(game => {
+            const genre = game.genres.map(g => g.name).join(", ");
+            const platforms = game.platforms.map(p => p.platform.name);
+            const pc = platforms.includes("PC") ? "fa-brands fa-windows" : "";
+            const playstation = platforms.some(p => p.includes("PlayStation")) ? "fa-brands fa-playstation" : "";
+            const xbox = platforms.some(p => p.includes("Xbox")) ? "fa-brands fa-xbox" : "";
+
+            cards.insertAdjacentHTML('beforeend', `
+                <div class="card h-[550px] w-[425px] bg-secondary flex flex-col rounded-md">
+                    <div id="card-first-part" class="h-1/2 w-full rounded-md">
+                        <img src="${game.background_image}" alt="${game.name}" class="w-full h-full object-cover rounded-md">
+                    </div>
+                    <div id="card-second-part" class="h-1/2 w-full p-2 pt-4 flex flex-col gap-6">
+                        <div class="flex justify-between" id="platforms">
+                            <div>
+                                <i class="${pc} mr-2 text-2xl"></i>
+                                <i class="${playstation} mr-2 text-2xl"></i>
+                                <i class="${xbox} mr-2 text-2xl"></i>
+                            </div>
+                        </div>
+                        <h1 class="text-4xl">${game.name}</h1>
+                        <h2 class="text-2xl">⭐ ${game.rating}</h2>
+                        <div id="release_container">
+                            Release Date: <span class="mr-6 text-gray-400">${game.released}</span>
+                            Genre: <span class="text-gray-400">${genre}</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+        });
+
+    } catch (error) {
+        console.error('Search failed:', error);
+    }
+};
+
+// adding event listener on search button
+searchIcon.addEventListener("click", () => {
+    const query = searchInput.value.trim();
+    if (query) fetchSearchResults(query);
+});
+
+
+
+
+
+
+
+
 
 
 
