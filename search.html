@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse</title>
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind v4 CDN -->
+   <script src="https://cdn.tailwindcss.com/3.4.17?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+
+    
+  <!-- Tailwind config (custom colors) -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#131722',
+            secondary: '#181D2B',
+            third : '#03DCFF'
+          },
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif']
+          },
+          screens : {
+
+            'bp1316' : '1316px'
+          }
+        }
+      }
+    }
+  </script>
+     
+
+    <script src="index.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body class="bg-primary text-white font-sans m-0" >
+
+
+
+
+
+<nav class="p-4 flex justify-between  items-center  ">
+
+<div class="w-36">
+<img src="/Assets/logo.png" alt="GAMEVERSE LOGO">
+</div>
+
+<div class="flex items-center">
+
+<input type="text" placeholder="search by name" class="hidden rounded-full h-8 relative md:block  lg:w-48 text-black ">
+<i class="fa-solid fa-magnifying-glass  text-gray-400 mr-8 cursor-pointer text-2xl fixed right-9 lg:hidden" ></i>
+<i id="menu-toggle"    class="fa-solid fa-bars text-gray-400 cursor-pointer text-2xl ml-5  lg:hidden" ></i>
+</div>
+
+<div  id="desktop-menu" class="hidden lg:flex space-x-8">
+
+<a   href="/" class="font-extrabold hover:text-third">Home</a> 
+<a   href="/" class="font-extrabold hover:text-third">Game of the Month</a>
+<a   href="#all-games"class="font-extrabold hover:text-third">All Games</a>
+<a   href="/"class="font-extrabold hover:text-third">Recommended</a>
+<a   href="/"class="font-extrabold hover:text-third">Favorites</a>
+
+
+</div>
+  
+</nav>
+<div id="mobile-menu" class=" hidden flex flex-col justify-center items-center absolute z-50 w-full lg:hidden">
+  <a href="/" class="font-extrabold hover:text-third mb-2 w-full h-16 flex justify-center items-center bg-secondary">Home</a>
+  <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Game of the Month</a>
+  <a href="#all-games" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">All Games</a>
+  <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Recommended</a>
+  <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Favorites</a>
+</div>
+
+
+
+<!--content wrapper-->
+
+<section id="search-results-section" class="hidden p-10">
+  <h1 class="text-3xl font-bold mb-6">Search Results</h1>
+  <div id="search-results" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+    <!-- JS will populate cards here -->
+  </div>
+  <p id="no-results-message" class="text-center text-gray-400 mt-6 hidden">No games found for your search.</p>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+</body>
+</html>
