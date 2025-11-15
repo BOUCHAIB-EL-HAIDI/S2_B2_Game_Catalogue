@@ -46,7 +46,15 @@ searchIcon.addEventListener("click", () => {
   }
 });
 
+//this part is for fixing a bug in the navbar when i click a link in the burger menu it took me to the distination but it stays displays over that sectiion
 
+const mobileLinks = mobileMenu.querySelectorAll("a");
+
+mobileLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    mobileMenu.classList.add("hidden"); 
+  });
+});
 
 
 // fetching data for game of the month //
@@ -225,10 +233,10 @@ const fetchDataAll = async () => {
      <div  id="card-first-part" class="h-1/2 w-full rounded-md">
 
 
-    <img src=" ${game.background_image} " alt=" ${game.name}  " class="w-full h-full object-cover rounded-md">
+    <img src=" ${game.background_image} " alt=" ${game.name}  " class="w-full h-full object-cover rounded-md relative">
 
 
-       
+      <i class="fa-solid fa-heart font-bold absolute right-3 top-3"></i>  
      </div>
 
      <div id="card-second-part" class="h-1/2 w-full p-2 pt-4 flex flex-col gap-6">
@@ -367,6 +375,8 @@ searchIcon.addEventListener("click", () => {
     const query = searchInput.value.trim();
     if (query) fetchSearchResults(query);
 });
+
+
 
 
 
