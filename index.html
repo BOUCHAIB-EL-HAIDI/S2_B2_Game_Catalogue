@@ -183,21 +183,28 @@
 
      <!-- adding the sort selector  -->
 
-    <div   class="flex justify-center">
+   <div class="flex flex-col justify-center items-center gap-4 mt-6">
 
-     <select   id="game-filter" class="bg-primary text-white rounded-xl mt-6 w-56 border-1 border-third">
-
-    <option  value=""  disabled selected >sort</option>
-
+  <!-- the main selector  -->
+  <select id="game-filter"
+          class="bg-primary text-white rounded-xl w-56 border border-third p-2">
+    <option value="" disabled selected>Sort</option>
     <option value="name-asc">By Name A-Z</option>
     <option value="name-desc">By Name Z-A</option>
-    <option value="Genre">By Genre</option>
-     <option value="platforms">By Platform</option>
+    <option value="genre">By Genre</option>
+    <option value="reset">Reset Filter</option>
+  </select>
 
+  <!-- second selector for genre  -->
+  <select id="genre-filter"
+          class="bg-primary text-white rounded-xl w-56 border border-third p-2 hidden">
+    <option value="" disabled selected>Choose Genre</option>
+    <option value="action">Action</option>
+    <option value="rpg">RPG</option>
+    <option value="adventure">Adventure</option>
+  </select>
 
-     </select>
-
-    </div>
+</div>
 
 
      <div class="cards grid sm:grid-cols-1 items-center md:grid-cols-2 lg:grid-cols-3 justify-items-center p-10 gap-10">
@@ -209,10 +216,10 @@
 
      <div class="flex justify-center gap-10 items-center" id="pagination">
      
-     
-    <button id="previous" class="w-28 bg-third m-10 text-center">previous</button>
-    <button id="next" class=" bg-third m-10 w-28 text-center">next</button>
-     
+     <i class="fa-solid fa-arrow-left"></i>
+    <button id="previous" class="w-28 bg-third m-10 text-center rounded-lg font-bold">previous</button>
+    <button id="next" class=" bg-third m-10 w-28 text-center rounded-lg font-bold">next</button>
+     <i class="fa-solid fa-arrow-right"></i>
 
      </div>
 
