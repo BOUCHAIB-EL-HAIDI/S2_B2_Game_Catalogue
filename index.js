@@ -316,7 +316,7 @@ const fetchDataAll = async () => {
         <i class="${playstation} mr-2 text-2xl"></i>
         <i class="${xbox} mr-2 text-2xl"></i>
         </div>
-       <i class="fa-solid fa-heart text-4xl cursor-pointer heart transition-all duration-300" data-id="${game.id}"></i>
+       <i class="fa-solid fa-heart text-4xl cursor-pointer heart transition-all duration-300 " data-id="${game.id}"></i>
       </div>
        <h1 class="text-4xl">${game.name}</h1>
        <h2 class="text-2xl">${"⭐\u00A0" + game.rating} </h2>
@@ -403,3 +403,25 @@ genreFilter.addEventListener("change", () => {
 
 
 
+
+//this part is for the search feature 
+searchInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    const query = searchInput.value.trim();
+    if (query) {
+      window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+    }
+  }
+});
+
+searchIcon.addEventListener('click', () => {
+  const query = searchInput.value.trim();
+  if (query) {
+    window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+  } else {
+    searchInput.classList.toggle("hidden");
+    if (!searchInput.classList.contains("hidden")) {
+      searchInput.focus();
+    }
+  }
+});
