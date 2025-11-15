@@ -34,7 +34,7 @@ menuToggle.addEventListener("click", () => {
 
 searchIcon.addEventListener("click", () => {
   searchInput.classList.toggle("hidden");
-  
+
     // Focus the input if it's now visible
   if (!searchInput.classList.contains("hidden")) {
     searchInput.focus();
@@ -57,7 +57,7 @@ const response  =  await fetch('https://debuggers-games-api.duckdns.org/api/game
 const data = await response.json();
  games = data.results;
 
-
+  console.log(games[0].genres)
 
 
 // finding the game of the month based on rating 
@@ -170,7 +170,12 @@ const fetchDataAll = async () => {
     if(sortOption === "name-asc") games.sort((a,b) => a.name.localeCompare(b.name));
     if(sortOption === "name-desc") games.sort((a,b) => b.name.localeCompare(a.name));
 
-
+       // Filter by genre if sortOption is a genre
+   if(sortOption === "action" || sortOption === "rpg" || sortOption === "adventure") {
+  games = games.filter(game =>
+    game.genres.some(g => g.name.toLowerCase() === sortOption)
+  );
+}
 
     // Clear and display cards
     cards.innerHTML = "";
@@ -285,10 +290,21 @@ gameFilter.addEventListener("change", () => {
     genreFilter.classList.add("hidden");
   }
 
+  
+
+
   fetchDataAll();
 });
 
 
+
+
+//sorting by genre event listener 
+
+genreFilter.addEventListener("change", () => {
+  sortOption = genreFilter.value; // "action", "rpg", or "adventure"
+  fetchDataAll();
+});
 
 
 
