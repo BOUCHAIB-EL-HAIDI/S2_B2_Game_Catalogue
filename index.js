@@ -29,6 +29,65 @@ const searchResultsSection = document.getElementById("search-results-section");
 const searchResultsContainer = document.getElementById("search-results");
 const noResultsMessage = document.getElementById("no-results-message");
 
+// Get favorites from localStorage
+function getFavorites() {
+  const favorites = localStorage.getItem('gameFavorites');
+  return favorites ? JSON.parse(favorites) : [];
+}
+
+
+function saveFavorites(favorites) {
+  localStorage.setItem('gameFavorites', JSON.stringify(favorites));
+}
+
+// Check if game is in favorites
+function isFavorite(gameId) {
+  const favorites = getFavorites();
+  return favorites.some(fav => fav.id === gameId);
+}
+
+// Add game to favorites
+function addToFavorites(game) {
+  const favorites = getFavorites();
+  if (!isFavorite(game.id)) {
+    favorites.push(game);
+    saveFavorites(favorites);
+  }
+}
+
+// Remove game from favorites
+function removeFromFavorites(gameId) {
+  let favorites = getFavorites();
+  favorites = favorites.filter(fav => fav.id !== gameId);
+  saveFavorites(favorites);
+}
+
+// Toggle favorite status
+function toggleFavorite(game, heartIcon) {
+  if (isFavorite(game.id)) {
+    removeFromFavorites(game.id);
+    heartIcon.classList.remove('text-red-500', 'scale-110');
+    heartIcon.classList.add('scale-100');
+  } else {
+    addToFavorites(game);
+    heartIcon.classList.add('text-red-500', 'scale-110');
+    heartIcon.classList.remove('scale-100');
+    // Add animation
+    heartIcon.style.transition = 'all 0.3s ease';
+  }
+}
+
+// Update heart icon based on favorite status
+function updateHeartIcon(heartIcon, gameId) {
+  if (isFavorite(gameId)) {
+    heartIcon.classList.add('text-red-500', 'scale-110');
+  } else {
+    heartIcon.classList.remove('text-red-500', 'scale-110');
+    heartIcon.classList.add('scale-100');
+  }
+}
+
+
 // creating the navbar//
 
 
@@ -40,7 +99,7 @@ menuToggle.addEventListener("click", () => {
 searchIcon.addEventListener("click", () => {
   searchInput.classList.toggle("hidden");
 
-    // Focus the input if it's now visible
+    
   if (!searchInput.classList.contains("hidden")) {
     searchInput.focus();
   }
@@ -127,6 +186,15 @@ const genreText = gameOfTheMonthGenre.join(", ");
 
 genre.innerText = genreText ;
 
+
+const gameOfMonthHeart = document.querySelector('#card-second-part .heart');
+if (gameOfMonthHeart) {
+  updateHeartIcon(gameOfMonthHeart, gameOfTheMonth.id);
+  gameOfMonthHeart.addEventListener('click', () => {
+    toggleFavorite(gameOfTheMonth, gameOfMonthHeart);
+  });
+
+}
 }
  catch (error) {
        
@@ -233,10 +301,10 @@ const fetchDataAll = async () => {
      <div  id="card-first-part" class="h-1/2 w-full rounded-md">
 
 
-    <img src=" ${game.background_image} " alt=" ${game.name}  " class="w-full h-full object-cover rounded-md relative">
+    <img src=" ${game.background_image} " alt=" ${game.name}  " class="w-full h-full object-cover rounded-md ">
 
 
-      <i class="fa-solid fa-heart font-bold absolute right-3 top-3"></i>  
+      
      </div>
 
      <div id="card-second-part" class="h-1/2 w-full p-2 pt-4 flex flex-col gap-6">
@@ -248,7 +316,7 @@ const fetchDataAll = async () => {
         <i class="${playstation} mr-2 text-2xl"></i>
         <i class="${xbox} mr-2 text-2xl"></i>
         </div>
-         <button class="bg-third w-fit text-center left-40 top-32 rounded-lg font-semibold">Quick look</button>
+       <i class="fa-solid fa-heart text-4xl cursor-pointer heart transition-all duration-300" data-id="${game.id}"></i>
       </div>
        <h1 class="text-4xl">${game.name}</h1>
        <h2 class="text-2xl">${"⭐\u00A0" + game.rating} </h2>
@@ -269,9 +337,23 @@ const fetchDataAll = async () => {
     
       
       ` );
-    
-    
 
+       // Add event listeners to all hearts after rendering
+    document.querySelectorAll('.heart').forEach(heart => {
+      const gameId = parseInt(heart.getAttribute('data-id'));
+      const game = games.find(g => g.id === gameId);
+      
+      // Update heart icon based on favorite status
+      updateHeartIcon(heart, gameId);
+      
+      heart.addEventListener('click', () => {
+        if (game) {
+          toggleFavorite(game, heart);
+        }
+      });
+    });
+
+    
 
 
 
@@ -318,73 +400,6 @@ genreFilter.addEventListener("change", () => {
   sortOption = genreFilter.value; // "action", "rpg", or "adventure"
   fetchDataAll();
 });
-
-
-
-
-
-
-const fetchSearchResults = async (query) => {
-    try {
-        const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?search=${query}`);
-        const data = await response.json();
-        const results = data.results;
-
-        // Clear main cards
-        cards.innerHTML = "";
-
-        // Display search results
-        results.forEach(game => {
-            const genre = game.genres.map(g => g.name).join(", ");
-            const platforms = game.platforms.map(p => p.platform.name);
-            const pc = platforms.includes("PC") ? "fa-brands fa-windows" : "";
-            const playstation = platforms.some(p => p.includes("PlayStation")) ? "fa-brands fa-playstation" : "";
-            const xbox = platforms.some(p => p.includes("Xbox")) ? "fa-brands fa-xbox" : "";
-
-            cards.insertAdjacentHTML('beforeend', `
-                <div class="card h-[550px] w-[425px] bg-secondary flex flex-col rounded-md">
-                    <div id="card-first-part" class="h-1/2 w-full rounded-md">
-                        <img src="${game.background_image}" alt="${game.name}" class="w-full h-full object-cover rounded-md">
-                    </div>
-                    <div id="card-second-part" class="h-1/2 w-full p-2 pt-4 flex flex-col gap-6">
-                        <div class="flex justify-between" id="platforms">
-                            <div>
-                                <i class="${pc} mr-2 text-2xl"></i>
-                                <i class="${playstation} mr-2 text-2xl"></i>
-                                <i class="${xbox} mr-2 text-2xl"></i>
-                            </div>
-                        </div>
-                        <h1 class="text-4xl">${game.name}</h1>
-                        <h2 class="text-2xl">⭐ ${game.rating}</h2>
-                        <div id="release_container">
-                            Release Date: <span class="mr-6 text-gray-400">${game.released}</span>
-                            Genre: <span class="text-gray-400">${genre}</span>
-                        </div>
-                    </div>
-                </div>
-            `);
-        });
-
-    } catch (error) {
-        console.error('Search failed:', error);
-    }
-};
-
-// adding event listener on search button
-searchIcon.addEventListener("click", () => {
-    const query = searchInput.value.trim();
-    if (query) fetchSearchResults(query);
-});
-
-
-
-
-
-
-
-
-
-
 
 
 

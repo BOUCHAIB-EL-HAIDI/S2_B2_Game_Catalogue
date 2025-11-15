@@ -60,20 +60,20 @@
 
 <div  id="desktop-menu" class="hidden lg:flex space-x-8">
 
-<a   href="/" class="font-extrabold hover:text-third">Home</a> 
-<a   href="/" class="font-extrabold hover:text-third">Game of the Month</a>
+<a   href="#hero-section" class="font-extrabold hover:text-third">Home</a> 
+<a   href="#game-of-the-month" class="font-extrabold hover:text-third">Game of the Month</a>
 <a   href="#all-games"class="font-extrabold hover:text-third">All Games</a>
-<a   href="/"class="font-extrabold hover:text-third">Favorites</a>
+<a   href="favoris.html"class="font-extrabold hover:text-third">Favorites</a>
 
 
 </div>
   
 </nav>
 <div id="mobile-menu" class="bg-primary mt-16 hidden flex flex-col justify-center items-center fixed z-50 w-full lg:hidden">
-  <a href="/" class="font-extrabold hover:text-third mb-2 w-full h-16 flex justify-center items-center bg-secondary">Home</a>
+  <a href="#hero-section" class="font-extrabold hover:text-third mb-2 w-full h-16 flex justify-center items-center bg-secondary">Home</a>
   <a href="#game-of-the-month" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Game of the Month</a>
   <a href="#all-games" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">All Games</a>
-  <a href="/" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Favorites</a>
+  <a href="favoris.html" class="font-extrabold hover:text-third my-2 w-full h-16 flex justify-center items-center bg-secondary">Favorites</a>
 </div>
 
 
@@ -141,12 +141,14 @@
 
      <div id="card-second-part" class="h-1/2 w-full p-2 pt-4 flex flex-col gap-6">
 
-      <div class="" id="platforms">
-      
-        <i class="mr-2 text-2xl"></i>
-        <i class="mr-2 text-2xl"></i>
-        <i class="mr-2 text-2xl"></i>
+          <div class="flex justify-between" id="platforms">
         
+       <div>
+        <i class="mr-2 text-2xl"></i>
+        <i class="mr-2 text-2xl"></i>
+        <i class="mr-2 text-2xl"></i>
+        </div>
+        <i class="fa-solid fa-heart text-4xl cursor-pointer heart" data-id=`${game.id}`></i>
       </div>
        <h1 class="text-4xl"></h1>
        <h2 class="text-2xl"></h2>
